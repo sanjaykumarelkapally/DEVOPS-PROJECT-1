@@ -7,11 +7,14 @@ phases:
   pre_build:
     commands:
     - echo "Logging to the ECR"
+    - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 028282962676.dkr.ecr.ap-south-1.amazonaws.com
   build:
     commands:
       - echo "This is the Building phase"
-      - docker build -t flaskapp .
+      - docker build -t phishing/devops1 .
+      - docker tag phishing/devops1:latest 028282962676.dkr.ecr.ap-south-1.amazonaws.com/phishing/devops1:latest
       
   post_build :
     commands:
       - echo "Pushing the docker image into ECR"
+      - docker push 028282962676.dkr.ecr.ap-south-1.amazonaws.com/phishing/devops1:latest
