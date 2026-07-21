@@ -1,0 +1,84 @@
+/* History page styles */
+
+.wrap {
+    width: min(1200px, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 2rem 0 3rem;
+}
+
+.card {
+    padding: 2rem;
+}
+
+.topbar {
+    margin-bottom: 1.25rem;
+}
+
+.topbar a {
+    color: var(--text);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.65rem 1rem;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    min-width: 720px;
+}
+
+th, td {
+    padding: 0.9rem 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+th {
+    color: #ffffff;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+td {
+    color: var(--muted);
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.78rem;
+    font-weight: 800;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.badge.url {
+    background: rgba(78, 205, 196, 0.16);
+    color: #c9fffb;
+}
+
+.badge.file {
+    background: rgba(255, 179, 71, 0.16);
+    color: #ffe4bc;
+}
+
+.badge.message {
+    background: rgba(255, 107, 107, 0.16);
+    color: #ffd2d2;
+}
+
+.empty {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 18px;
+    border: 1px dashed rgba(255, 255, 255, 0.18);
+    color: var(--muted);
+}

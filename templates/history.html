@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/history.css') }}">
+</head>
+<body>
+    <div class="wrap">
+        <div class="topbar">
+            <div>
+                <h1>Your search history</h1>
+                <p>Recent scans saved under your signed-in account.</p>
+            </div>
+            <a href="{{ url_for('home') }}">Back to home</a>
+        </div>
+
+        <div class="card">
+            {% if history_items %}
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Query</th>
+                                <th>Verdict</th>
+                                <th>Score</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in history_items %}
+                                <tr>
+                                    <td><span class="badge {{ item.scan_type }}">{{ item.scan_type }}</span></td>
+                                    <td>{{ item.query }}</td>
+                                    <td>{{ item.verdict or 'N/A' }}</td>
+                                    <td>{{ item.score if item.score is not none else 'N/A' }}</td>
+                                    <td>{{ item.created_at }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="empty">No saved scans yet. Run a scan while signed in to populate this page.</div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

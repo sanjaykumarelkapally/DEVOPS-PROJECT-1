@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+</head>
+<body>
+    <div class="wrap">
+        <div class="topbar">
+            <div>
+                <h1>About this scanner</h1>
+                <p>A simple phishing triage app for URL, file, and message review.</p>
+            </div>
+            <a href="{{ url_for('home') }}">Back to home</a>
+        </div>
+
+        <div class="card">
+            <p>This project combines website screenshots, WHOIS lookup, VirusTotal file scanning, and Gemini-powered message analysis to help identify suspicious content quickly.</p>
+
+            <div class="pill-row">
+                <span class="pill">URL screenshots</span>
+                <span class="pill">WHOIS metadata</span>
+                <span class="pill">VirusTotal scanning</span>
+                <span class="pill">Gemini AI review</span>
+                <span class="pill">Search history</span>
+            </div>
+
+            <h2>How it works</h2>
+            <ul>
+                <li>Submit a URL to inspect the site, capture a screenshot, and review WHOIS data.</li>
+                <li>Upload a file to VirusTotal to check for malicious detections.</li>
+                <li>Paste a message or email text to analyze it with Gemini and extract links.</li>
+                <li>Sign in to save scans in your personal history.</li>
+            </ul>
+
+            <h2>Privacy note</h2>
+            <p>The app stores scan history only for signed-in users in the local SQLite database bundled with the project.</p>
+        </div>
+    </div>
+</body>
+</html>

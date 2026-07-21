@@ -1,0 +1,30 @@
+/* Styles for login and signup pages */
+
+.wrap {
+    width: min(920px, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 2rem 0 3rem;
+}
+
+.card {
+    padding: 2rem;
+    margin-top: 1rem;
+}
+
+.topbar {
+    margin-bottom: 1.25rem;
+}
+
+.meta {
+    margin-top: 1rem;
+    color: var(--muted);
+}
+
+.meta a {
+    color: #c9fffb;
+    text-decoration: none;
+}
+
+.meta a:hover {
+    text-decoration: underline;
+}

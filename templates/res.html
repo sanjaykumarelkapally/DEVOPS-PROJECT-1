@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="topbar">
+            <div class="title">
+                <h1>Security Scan Results</h1>
+                <p>Consolidated output for URL, file, and message analysis.</p>
+            </div>
+            <a href="/" class="back-button">Back to Home</a>
+        </div>
+
+        {% if url %}
+            <div class="banner">
+                <strong>Scanned URL:</strong> {{ url }}
+            </div>
+        {% endif %}
+
+        {% if whois_error %}
+            <div class="banner error">{{ whois_error }}</div>
+        {% endif %}
+
+        {% if vt_error %}
+            <div class="banner error">{{ vt_error }}</div>
+        {% endif %}
+
+        {% if message_error %}
+            <div class="banner error">{{ message_error }}</div>
+        {% endif %}
+
+        {% if message %}
+            <div class="card" style="margin-bottom: 1rem;">
+                <h2>Message Under Review</h2>
+                <div class="message-body">{{ message }}</div>
+            </div>
+        {% endif %}
+
+        <div class="grid">
+            {% if image_data %}
+                <div class="card screenshot-card">
+                    <h2>Website Screenshot</h2>
+                    <img src="data:image/png;base64,{{ image_data }}" alt="Website screenshot">
+                </div>
+            {% endif %}
+
+            {% if result %}
+                <div class="card">
+                    <h2>WHOIS Details</h2>
+                    <ul class="info-list">
+                        <li><span class="info-label">Domain</span><span class="info-value">{{ result.Domain }}</span></li>
+                        <li><span class="info-label">Registrar</span><span class="info-value">{{ result.Registrar }}</span></li>
+                        <li><span class="info-label">Created</span><span class="info-value">{{ result.Created }}</span></li>
+                        <li><span class="info-label">Updated</span><span class="info-value">{{ result.Updated }}</span></li>
+                        <li><span class="info-label">Expires</span><span class="info-value">{{ result.Expires }}</span></li>
+                    </ul>
+                </div>
+            {% endif %}
+
+            {% if vt_result %}
+                <div class="card">
+                    <h2>VirusTotal Scan</h2>
+                    <ul class="info-list">
+                        <li><span class="info-label">File</span><span class="info-value">{{ vt_result.filename }}</span></li>
+                        <li><span class="info-label">Analysis ID</span><span class="info-value">{{ vt_result.analysis_id }}</span></li>
+                        <li>
+                            <span class="info-label">Status</span>
+                            <span class="info-value">
+                                {% if vt_result.status == 'completed' %}
+                                    <span class="status-badge status-completed">{{ vt_result.status|upper }}</span>
+                                {% else %}
+                                    <span class="status-badge status-pending">{{ vt_result.status|upper }}</span>
+                                {% endif %}
+                            </span>
+                        </li>
+                    </ul>
+
+                    <div class="vt-stats">
+                        <div class="stat"><span class="num">{{ vt_result.malicious or 0 }}</span><span class="lbl">Malicious</span></div>
+                        <div class="stat"><span class="num">{{ vt_result.suspicious or 0 }}</span><span class="lbl">Suspicious</span></div>
+                        <div class="stat"><span class="num">{{ vt_result.harmless or 0 }}</span><span class="lbl">Harmless</span></div>
+                        <div class="stat"><span class="num">{{ vt_result.undetected or 0 }}</span><span class="lbl">Undetected</span></div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% set ai_result = gemini_result or message_result %}
+
+            {% if ai_result %}
+                <div class="card">
+                    <span class="gemini-pill">Gemini Analysis</span>
+                    <h2>AI Risk Assessment</h2>
+                    <ul class="info-list">
+                        <li><span class="info-label">Verdict</span><span class="info-value">{{ ai_result.verdict }}</span></li>
+                        <li><span class="info-label">Risk Score</span><span class="info-value">{{ ai_result.score }}</span></li>
+                        <li><span class="info-label">Model Source</span><span class="info-value">{{ ai_result.source or 'gemini' }}</span></li>
+                        <li><span class="info-label">Extracted Links</span><span class="info-value">{{ ai_result.urls | join(', ') if ai_result.urls else 'None' }}</span></li>
+                    </ul>
+
+                    {% if ai_result.summary %}
+                        <div class="message-meta"><strong>Summary:</strong> {{ ai_result.summary }}</div>
+                    {% endif %}
+
+                    {% if ai_result.reasons %}
+                        <ul class="plain-list">
+                            {% for reason in ai_result.reasons %}
+                                <li>{{ reason }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    {% if ai_result.recommendation %}
+                        <div class="message-meta"><strong>Recommendation:</strong> {{ ai_result.recommendation }}</div>
+                    {% endif %}
+
+                    {% if ai_result.ai_note %}
+                        <div class="message-meta">{{ ai_result.ai_note }}</div>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+
+        {% if not image_data and not result and not vt_result and not ai_result %}
+            <div class="card empty">
+                <p>No results available yet. Go back and run a scan.</p>
+            </div>
+        {% endif %}
+
+        <footer>
+            <p>&copy; 2026 Web Security Scanner. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>

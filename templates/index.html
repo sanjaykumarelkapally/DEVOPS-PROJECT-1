@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishguard </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+    <header>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('history') }}">Search History</a></li>
+            {% if current_user %}
+                <li><span class="user-chip">Signed in as {{ current_user.username }}</span></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+            {% endif %}
+            <li><a href="{{ url_for('about') }}">About</a></li>
+        </ul>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-stack">
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <main class="shell">
+        <section class="hero">
+            <div class="hero-copy">
+                <div class="eyebrow">Security triage workspace</div>
+                <div class="headline">
+                    <h1>Phishguard </h1>
+                    <h2>Fake Email Scanner</h2>
+                    <p>Inspect URLs, files, and messages in one focused workspace. Select a scan type first and the page will show only the input area you need.</p>
+                </div>
+                <div class="hero-points">
+                    <span>URL reputation</span>
+                    <span>VirusTotal file scans</span>
+                    <span>Gemini message analysis</span>
+                </div>
+            </div>
+
+            <div class="side-stack">
+                <div class="stat-card">
+                    <p>Single action panel</p>
+                    <strong>3 modes</strong>
+                    <p>Choose what you want to analyze, then the relevant form appears instantly.</p>
+                </div>
+                <div class="stat-card">
+                    <p>AI-assisted review</p>
+                    <strong>Gemini</strong>
+                    <p>Messages are reviewed by Gemini for phishing signals, links, and suspicious language.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="forms-wrap">
+            <div class="forms-container">
+                <h2>Start Your Security Check</h2>
+                <p class="subhead">Select one scan type, then provide only the input needed for that task.</p>
+
+                <div class="forms">
+                    <div class="scan-selector">
+                        <label for="scan_type">Choose what you want to scan</label>
+                        <select id="scan_type" name="scan_type">
+                            <option value="url" selected>URL</option>
+                            <option value="file">File</option>
+                            <option value="message">Message</option>
+                        </select>
+                    </div>
+
+                    <form action="/search_with_url" method="post" id="dynamic_scan_form" enctype="multipart/form-data">
+                        <div class="input-panel active" data-panel="url">
+                            <div class="form-group">
+                                <label for="url_input">Scan URL</label>
+                                <p class="form-hint">Enter a website address to fetch a screenshot and WHOIS data.</p>
+                                <div class="container">
+                                    <input type="text" name="url" placeholder="Enter URL (e.g., google.com)" id="url_input" required>
+                                    <button type="submit" id="scan_button_url">Search</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-panel" data-panel="file">
+                            <div class="form-group">
+                                <label for="file_input">Scan File</label>
+                                <p class="form-hint">Choose a file to upload to VirusTotal for analysis.</p>
+                                <div class="container">
+                                    <input type="file" name="file" id="file_input">
+                                    <button type="submit" id="scan_button_file">Scan</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-panel message-input" data-panel="message">
+                            <div class="form-group">
+                                <label for="message_input">Check Message</label>
+                                <p class="form-hint">Paste a message or email text to check for suspicious language, URLs, and phishing cues.</p>
+                                <div class="container">
+                                    <textarea name="message" id="message_input" placeholder="Paste message or content" rows="5"></textarea>
+                                    <button type="submit" id="scan_button_message">Analyze</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Web Security Scanner. All rights reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</body>
+</html>

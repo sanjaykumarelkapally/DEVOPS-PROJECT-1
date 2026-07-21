@@ -1,0 +1,354 @@
+/* Home/Index page styles */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(7, 17, 31, 0.75);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem;
+}
+
+header ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+}
+
+header a {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    transition: all 0.25s ease;
+    border: none;
+    background: none;
+    box-shadow: none;
+}
+
+header a:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+}
+
+.user-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.flash-stack {
+    width: min(1200px, calc(100% - 2rem));
+    margin: 1rem auto 0;
+}
+
+.shell {
+    width: min(1200px, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 2rem 0 3rem;
+    flex: 1;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.hero {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 1.25rem;
+    align-items: stretch;
+    margin-top: 1rem;
+}
+
+.hero-copy,
+.stat-card,
+.forms-container {
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    background: linear-gradient(180deg, var(--panel-strong), var(--panel));
+    backdrop-filter: blur(18px);
+    box-shadow: var(--shadow);
+}
+
+.hero-copy {
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-copy::after {
+    content: '';
+    position: absolute;
+    inset: auto -8rem -8rem auto;
+    width: 18rem;
+    height: 18rem;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(78, 205, 196, 0.18), transparent 65%);
+    pointer-events: none;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+}
+
+.headline h1 {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(2.8rem, 5vw, 5rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+    max-width: 12ch;
+}
+
+.headline p {
+    color: var(--muted);
+    font-size: 1.02rem;
+    line-height: 1.8;
+    max-width: 62ch;
+}
+
+.hero-points {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.hero-points span {
+    padding: 0.55rem 0.9rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.side-stack {
+    display: grid;
+    gap: 1rem;
+}
+
+.stat-card {
+    padding: 1.5rem;
+    min-height: 170px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.stat-card p {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.stat-card strong {
+    display: block;
+    font-size: 2rem;
+    letter-spacing: -0.03em;
+    margin: 0.4rem 0;
+}
+
+.forms-wrap {
+    margin-top: 1.25rem;
+}
+
+.forms-container {
+    padding: 2rem;
+}
+
+.forms-container h2 {
+    text-align: center;
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+    border: none;
+    padding: 0;
+}
+
+.subhead {
+    text-align: center;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.forms {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.scan-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.scan-selector select {
+    width: 100%;
+    height: 52px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 14px;
+    padding: 0 1rem;
+    font-size: 1rem;
+    font-family: inherit;
+    background: rgba(7, 17, 31, 0.45);
+    color: var(--text);
+}
+
+.input-panel {
+    display: none;
+}
+
+.input-panel.active {
+    display: block;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.form-hint {
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    gap: 0;
+}
+
+input[type="text"],
+textarea,
+input[type="file"] {
+    flex: 1;
+    width: 100%;
+    height: 52px;
+    padding: 0 15px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 14px 0 0 14px;
+    font-size: 0.96rem;
+    font-family: inherit;
+    background: rgba(255, 255, 255, 0.96);
+    color: #132238;
+    resize: vertical;
+}
+
+textarea {
+    min-height: 140px;
+    padding: 1rem 1rem;
+    border-radius: 14px 0 0 14px;
+    height: auto;
+}
+
+input[type="file"] {
+    padding: 0.8rem 1rem;
+}
+
+input[type="file"]::file-selector-button {
+    background: linear-gradient(135deg, #4ecdc4, #1f9d8a);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
+.container button {
+    height: 52px;
+    padding: 0 1.4rem;
+    border: none;
+    border-radius: 0 14px 14px 0;
+    background: linear-gradient(135deg, var(--accent), #1f9d8a);
+    color: white;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 10px 24px rgba(31, 157, 138, 0.35);
+    transition: all 0.25s ease;
+}
+
+.container button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(31, 157, 138, 0.42);
+}
+
+.message-input textarea {
+    border-radius: 14px 0 0 14px;
+}
+
+footer {
+    text-align: center;
+    color: rgba(238, 244, 255, 0.7);
+    padding: 1.5rem 2rem 2rem;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 920px) {
+    .hero {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .shell {
+        width: min(100% - 1rem, 1200px);
+    }
+
+    .hero-copy,
+    .forms-container {
+        padding: 1.25rem;
+        border-radius: 22px;
+    }
+
+    .headline h1 {
+        font-size: 2.4rem;
+    }
+
+    .container {
+        flex-direction: column;
+    }
+
+    input[type="text"],
+    textarea,
+    input[type="file"],
+    .container button {
+        border-radius: 14px;
+    }
+
+    .container button {
+        width: 100%;
+        margin-top: 0.25rem;
+    }
+}
