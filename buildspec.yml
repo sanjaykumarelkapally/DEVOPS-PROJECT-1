@@ -1,0 +1,17 @@
+version: 0.2
+phases:
+  install:
+   commands:
+     - echo "building the application"
+     - echo "connecting to the ECR"
+  pre_build:
+    commands:
+    - echo "Logging to the ECR"
+  build:
+    commands:
+      - echo "This is the Building phase"
+      - docker build -t flaskapp .
+      
+  post_build :
+    commands:
+      - echo "Pushing the docker image into ECR"
