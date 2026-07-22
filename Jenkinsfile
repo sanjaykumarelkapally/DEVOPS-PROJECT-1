@@ -1,20 +1,26 @@
-// echo "================================================ok done ================================================================================================"
-// docker build -t Phishing:latest .
-pipeline {
-    agent any
-    stages {
-        stage('Build') {
-            steps {
-                echo "================================================ok done ================================================================================================"
-                
-            }
+Pipeline {
+    agent: any
+    environment {
+        DOCKER_IMAGE = 'flaskapp:latest'
+    }
+
+    Stages {
+        Stage('Checkout') {
+            sh 'mkdir Application'
+            sh 'cd Application'
+            sh 'git clone https://github.com/sanjaykumarelkapally/DEVOPS-PROJECT-1.git'
+        }
+
+        Stage('Build') {
+            sh 'docker build -t PhishingDetector:latest .'
+        }
+
+        Stage('Post_Build') {
+            echo 'Build completed successfully!'
         }
     
-        stage('Push') {
-            steps {
-                echo "================================================ok done ================================================================================================"
-                echo "================================================ok Pushed ================================================================================================"
-}
+        Stage('Push') {
+            echo 'Pushing the Docker image to Docker Hub...'
         }
 }
 }
