@@ -2,17 +2,10 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps{
-            sh 'mkdir Application'
-            sh 'cd Application'
-            sh 'git clone https://github.com/sanjaykumarelkapally/DEVOPS-PROJECT-1.git'
-         }
-        }
 
         stage('Build') {
             steps{
-            sh 'docker build -t PhishingDetector:latest .'
+            sh 'docker build -t phishingdetector:latest .'
        
         }
         }
