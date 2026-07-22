@@ -1,26 +1,33 @@
-Pipeline {
+pipeline {
     agent: any
-    environment {
-        DOCKER_IMAGE = 'flaskapp:latest'
-    }
 
-    Stages {
-        Stage('Checkout') {
+    stages {
+        stage('Checkout') {
+            steps{
             sh 'mkdir Application'
             sh 'cd Application'
             sh 'git clone https://github.com/sanjaykumarelkapally/DEVOPS-PROJECT-1.git'
+         }
         }
 
-        Stage('Build') {
+        stage('Build') {
+            steps{
             sh 'docker build -t PhishingDetector:latest .'
+       
+        }
         }
 
-        Stage('Post_Build') {
+
+        stage   ('Post_Build') {
+           steps{
             echo 'Build completed successfully!'
         }
+        }
     
-        Stage('Push') {
+        stage('Push') {
+         steps{
             echo 'Pushing the Docker image to Docker Hub...'
+        }
         }
 }
 }
