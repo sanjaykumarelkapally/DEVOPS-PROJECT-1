@@ -5,7 +5,7 @@ pipeline {
 
         stage('Build') {
             steps{
-            sh 'sudo docker build -t phishingdetector:latest .'
+            sh 'docker build -t phishingdetector:latest .'
        
         }
         }
