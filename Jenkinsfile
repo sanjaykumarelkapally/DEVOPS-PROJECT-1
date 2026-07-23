@@ -20,11 +20,11 @@ pipeline {
         stage('Login to ECR') {
             steps {
                 sh '''
-                aws ecr get-login-password --region $AWS_REGION | \
-                docker login \
-                    --username AWS \
-                    --password-stdin \
-                    $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+                    aws ecr get-login-password --region $AWS_REGION | \
+                    docker login \
+                        --username AWS \
+                        --password-stdin \
+                        $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
                 '''
             }
         }
@@ -32,7 +32,7 @@ pipeline {
         stage('Tag Image') {
             steps {
                 sh '''
-                docker tag phishing_detector:latest $IMAGE_URI
+                    docker tag phishing_detector:latest $IMAGE_URI
                 '''
             }
         }
@@ -40,7 +40,7 @@ pipeline {
         stage('Push Image') {
             steps {
                 sh '''
-                docker push $IMAGE_URI
+                    docker push $IMAGE_URI
                 '''
             }
         }
@@ -48,40 +48,57 @@ pipeline {
         stage('Deploy') {
             steps {
                 sshagent(credentials: ['deployment-ec2-key']) {
-                    sh '''
-                    ssh -o StrictHostKeyChecking=no ubuntu@$DEPLOY_HOST << EOF
+                    sh """
+                        ssh -o StrictHostKeyChecking=no ubuntu@${DEPLOY_HOST} '
+                            set -e
 
-                    set -e
+                            aws ecr get-login-password --region ${AWS_REGION} | docker login \
+                                --username AWS \
+                                --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
 
-                    aws ecr get-login-password --region $AWS_REGION | docker login \
-                        --username AWS \
-                        --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+                            docker pull ${IMAGE_URI}
 
-                    docker pull $IMAGE_URI
+                            docker stop phishing-detector || true
+                            docker rm phishing-detector || true
 
-                    docker stop phishing-detector || true
-                    docker rm phishing-detector || true
+                            docker run -d \
+                                --name phishing-detector \
+                                --restart unless-stopped \
+                                -p 5001:5001 \
+                                ${IMAGE_URI}
 
-                    docker run -d \
-                        --name phishing-detector \
-                        --restart unless-stopped \
-                        -p 5001:5001 \
-                        $IMAGE_URI
+                            docker image prune -f
 
-                    docker image prune -f
-
-                    docker ps
-
-                    EOF
-                    '''
+                            docker ps
+                        '
+                    """
                 }
             }
         }
 
         stage('Post Build') {
             steps {
-                echo 'Docker image built, pushed to Amazon ECR, and deployed successfully.'
+                echo '=========================================='
+                echo 'Deployment completed successfully!'
+                echo 'Docker image built.'
+                echo 'Image pushed to Amazon ECR.'
+                echo 'Application deployed to EC2.'
+                echo '=========================================='
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'CI/CD Pipeline executed successfully.'
+        }
+
+        failure {
+            echo 'CI/CD Pipeline failed.'
+        }
+
+        always {
+            cleanWs()
         }
     }
 }
